@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koan</title>
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --ink: #2b2b26;
+    --muted: #8a8578;
+    --accent: #6b7a63;
+    --card: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1b18;
+      --ink: #eae6db;
+      --muted: #8a8578;
+      --accent: #9db08f;
+      --card: #24241f;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .container {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+  }
+  h1 {
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+  .enso {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: none;
+    background: var(--card);
+    border: 1px solid rgba(128,128,128,0.25);
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    color: var(--ink);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+  }
+  button {
+    margin-top: 16px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  button:hover { opacity: 0.85; }
+  button:active { transform: scale(0.97); }
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .response {
+    margin-top: 48px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .koan {
+    font-size: 20px;
+    line-height: 1.7;
+    font-style: italic;
+    color: var(--ink);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    white-space: pre-line;
+  }
+  .koan.visible {
+    opacity: 1;
+  }
+  .hint {
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Koan</h1>
+    <textarea id="input" placeholder="Say whatever is on your mind…" autofocus></textarea>
+    <br>
+    <button id="submit">Offer</button>
+    <div class="response">
+      <div class="koan" id="koanOutput"></div>
+    </div>
+    <div class="hint">Type anything — a worry, a question, a complaint. Press Offer.</div>
+  </div>
+
+<script>
+// Theme-tagged koan bank. Each entry: keywords used for matching, and one or more koans.
+const KOAN_BANK = [
+  {
+    themes: ["anxious","anxiety","worried","worry","nervous","scared","afraid","fear","panic","stress","stressed"],
+    koans: [
+      "The wind does not break the reed that bends.\nWhat are you so afraid of breaking?",
+      "A student asked, 'How do I stop being afraid?'\nThe master said, 'Stop asking the fear to leave before you let it sit down.'",
+      "You are standing in a river, waiting for the water to pass.\nIt will not pass. Walk."
+    ]
+  },
+  {
+    themes: ["angry","anger","mad","furious","frustrated","annoyed","rage","hate"],
+    koans: [
+      "Fire does not apologize for burning.\nBut what are you burning down?",
+      "A monk struck the bell too hard, and it cracked.\n'Now,' said the master, 'you have two sounds instead of one. Neither is wrong.'",
+      "Anger is a hot coal you pick up to throw at someone else.\nLook — your hand is already burned."
+    ]
+  },
+  {
+    themes: ["sad","sadness","depressed","depression","grief","grieving","loss","lost","lonely","alone","empty"],
+    koans: [
+      "The cup is empty. This is not a flaw in the cup.\nIt is what makes the cup useful.",
+      "A student wept before the master. The master wept too, and said nothing.\nAfter a long while, only one of them was still weeping.",
+      "Snow falls into the river and disappears.\nWhere did it go? Ask the river, not the sky."
+    ]
+  },
+  {
+    themes: ["confused","confusion","uncertain","unsure","dont know","don't know","lost","stuck","unclear","undecided"],
+    koans: [
+      "You are looking for the door while standing in the doorway.",
+      "A traveler asked which road led home.\nThe old woman said, 'Which one are you walking on now?'",
+      "The fog does not need to be understood. It only needs to be walked through."
+    ]
+  },
+  {
+    themes: ["work","job","career","boss","deadline","busy","tired","exhausted","overwhelmed"],
+    koans: [
+      "The axe that is never put down cuts nothing well.",
+      "A woodcutter chopped from dawn to dusk without sharpening his blade.\n'I have no time to stop,' he said, and chopped more slowly every day.",
+      "The bucket carried to the well every day wears a groove in the rope.\nIs it the bucket's task to hurry, or the well's task to wait?"
+    ]
+  },
+  {
+    themes: ["love","relationship","partner","marriage","boyfriend","girlfriend","husband","wife","breakup","heartbreak"],
+    koans: [
+      "Two flames leaning toward each other do not become one fire.\nThey only make more light.",
+      "A student asked how to hold love without crushing it.\nThe master opened his hand. The bird did not fly away.",
+      "You cannot pour tea into a cup that is already full of your own reaching."
+    ]
+  },
+  {
+    themes: ["fail","failure","failed","mistake","messed up","screwed up","wrong","regret"],
+    koans: [
+      "The arrow that misses teaches the bow something the arrow that hits never will.",
+      "A young monk broke the master's favorite bowl and wept.\n'Good,' said the master. 'Now you know it was never yours to keep whole.'",
+      "Every crooked line was once a straight one that dared to move."
+    ]
+  },
+  {
+    themes: ["future","plan","planning","goal","ambition","success","want","need to","should","trying to"],
+    koans: [
+      "The seed does not strain toward the sun. It simply stops being a seed.",
+      "A disciple asked, 'How do I reach enlightenment?'\nThe master asked, 'How do you reach the sound of that bell?'\nThe disciple listened. It was already there.",
+      "You are so busy climbing the mountain, you have mistaken it for the sky."
+    ]
+  },
+  {
+    themes: ["control","controlling","perfectionist","perfect","organize","plan everything"],
+    koans: [
+      "The river carves the canyon by refusing to hold its shape.",
+      "A gardener pulled at a vine to make it grow faster.\nIn the morning, the vine was still asleep, and the gardener's hands were tired.",
+      "You cannot grip water. You can only become the shape it wants to take."
+    ]
+  },
+  {
+    themes: ["silence","quiet","peace","calm","meditate","meditation","breathe","breath"],
+    koans: [
+      "Before the bell is struck, where does its sound live?",
+      "A student asked how to find silence.\nThe master said, 'Stop adding to it.'",
+      "The mountain has said nothing for ten thousand years, and everyone still comes to listen."
+    ]
+  },
+  {
+    themes: ["money","poor","rich","debt","broke","finance","financial"],
+    koans: [
+      "A beggar and a king both drink the same water from the well.\nOne calls it lack. The other calls it thirst.",
+      "The hand closed around a coin cannot receive another.",
+      "A monk asked, 'How can I become wealthy?'\nThe master replied, 'Want less than you have.'"
+    ]
+  },
+  {
+    themes: ["who am i","identity","purpose","meaning","meaningless","pointless","why am i"],
+    koans: [
+      "You ask the wave to explain the ocean.\nBut you are not watching the wave — you are the wave, asking.",
+      "A student searched for his true self for thirty years, and returned home to find it had been cooking rice the whole time.",
+      "The question 'who am I' is a finger pointing at the moon.\nStop examining the finger."
+    ]
+  },
+  {
+    themes: ["hello","hi","hey","test","testing"],
+    koans: [
+      "You knocked on the door, and it was already open.\nWhat were you expecting to find?",
+      "The greeting and the silence after it are made of the same breath."
+    ]
+  }
+];
+
+// Fallback koans when no theme matches.
+const GENERIC_KOANS = [
+  "The finger pointing at the moon is not the moon.",
+  "A student asked the master, 'What is the sound of one hand clapping?'\nThe master raised one hand and waited.",
+  "Before enlightenment, chop wood, carry water.\nAfter enlightenment, chop wood, carry water.",
+  "The obstacle in the path becomes the path. Never forget, within every obstacle is an opportunity to improve our condition.",
+  "You cannot see your own eyes without a mirror.\nSome things are known only by their reflection in another.",
+  "A cup of tea poured too full spills before it reaches the lips.",
+  "The old pine tree speaks divine wisdom.\nThe hidden bird manifests eternal truth.",
+  "Nothing in the world is as soft as water,\nyet nothing is better at overcoming the hard and strong.",
+  "When you reach the top of the mountain, keep climbing.",
+  "The wild geese do not intend to cast their reflection.\nThe water has no mind to receive their image."
+];
+
+function normalize(text) {
+  return text.toLowerCase();
+}
+
+function pickKoan(userText) {
+  const text = normalize(userText);
+  let bestScore = 0;
+  let bestGroups = [];
+
+  for (const group of KOAN_BANK) {
+    let score = 0;
+    for (const kw of group.themes) {
+      if (text.includes(kw)) score++;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestGroups = [group];
+    } else if (score === bestScore && score > 0) {
+      bestGroups.push(group);
+    }
+  }
+
+  let pool;
+  if (bestScore > 0) {
+    pool = bestGroups.flatMap(g => g.koans);
+  } else {
+    pool = GENERIC_KOANS;
+  }
+
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+const input = document.getElementById('input');
+const submitBtn = document.getElementById('submit');
+const output = document.getElementById('koanOutput');
+
+function respond() {
+  const text = input.value.trim();
+  if (!text) {
+    input.focus();
+    return;
+  }
+  output.classList.remove('visible');
+  submitBtn.disabled = true;
+
+  setTimeout(() => {
+    output.textContent = pickKoan(text);
+    output.classList.add('visible');
+    submitBtn.disabled = false;
+  }, 350);
+}
+
+submitBtn.addEventListener('click', respond);
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    respond();
+  }
+});
+</script>
+</body>
+</html>
