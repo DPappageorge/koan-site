@@ -189,8 +189,15 @@
     color: var(--muted);
     font-style: italic;
   }
-  .explain-btn {
+  .response-actions {
     margin-top: 22px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 14px;
+  }
+  .explain-btn {
+    margin-top: 0;
     background: none;
     background-image: none;
     border: none;
@@ -211,6 +218,14 @@
   .explain-btn:hover { color: var(--ink); opacity: 1; }
   .explain-btn:active { transform: none; }
   .explain-btn[hidden] { display: none; }
+  .action-divider {
+    color: var(--muted);
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .action-divider.visible { opacity: 0.6; }
+  .action-divider[hidden] { display: none; }
   .explanation {
     margin-top: 16px;
     max-width: 440px;
@@ -253,7 +268,11 @@
         <path d="M5 10 Q 60 2, 150 10 T 295 9" stroke="var(--terracotta)" stroke-width="3" fill="none" stroke-linecap="round"/>
       </svg>
       <div class="koan" id="koanOutput"></div>
-      <button class="explain-btn" id="explainBtn" hidden>What does this mean?</button>
+      <div class="response-actions">
+        <button class="explain-btn" id="explainBtn" hidden>What does this mean?</button>
+        <span class="action-divider" id="actionDivider" hidden>&middot;</span>
+        <button class="explain-btn" id="resetBtn" hidden>Ask something else</button>
+      </div>
       <div class="explanation" id="explanation"></div>
     </div>
     <div class="hint">Type anything — a worry, a question, a complaint. Press Offer.</div>
@@ -625,6 +644,8 @@ const submitBtn = document.getElementById('submit');
 const output = document.getElementById('koanOutput');
 const brushStroke = document.getElementById('brushStroke');
 const explainBtn = document.getElementById('explainBtn');
+const resetBtn = document.getElementById('resetBtn');
+const actionDivider = document.getElementById('actionDivider');
 const explanation = document.getElementById('explanation');
 
 let currentMeaning = '';
@@ -637,6 +658,13 @@ function resetExplanation() {
   explanation.textContent = '';
 }
 
+function hideResetControls() {
+  resetBtn.hidden = true;
+  resetBtn.classList.remove('visible');
+  actionDivider.hidden = true;
+  actionDivider.classList.remove('visible');
+}
+
 function respond() {
   const text = input.value.trim();
   if (!text) {
@@ -646,6 +674,7 @@ function respond() {
   output.classList.remove('visible');
   brushStroke.classList.remove('visible');
   resetExplanation();
+  hideResetControls();
   submitBtn.disabled = true;
 
   setTimeout(() => {
@@ -656,7 +685,13 @@ function respond() {
     brushStroke.classList.add('visible');
     submitBtn.disabled = false;
     explainBtn.hidden = false;
-    requestAnimationFrame(() => explainBtn.classList.add('visible'));
+    resetBtn.hidden = false;
+    actionDivider.hidden = false;
+    requestAnimationFrame(() => {
+      explainBtn.classList.add('visible');
+      resetBtn.classList.add('visible');
+      actionDivider.classList.add('visible');
+    });
   }, 350);
 }
 
@@ -670,6 +705,16 @@ explainBtn.addEventListener('click', () => {
     explanation.classList.add('visible');
     explainBtn.textContent = 'Hide explanation';
   }
+});
+
+resetBtn.addEventListener('click', () => {
+  output.classList.remove('visible');
+  output.textContent = '';
+  brushStroke.classList.remove('visible');
+  resetExplanation();
+  hideResetControls();
+  input.value = '';
+  input.focus();
 });
 
 submitBtn.addEventListener('click', respond);
