@@ -6,31 +6,31 @@
 <title>Koan</title>
 <style>
   :root {
-    --paper: #efe6d3;
-    --paper-edge: #e4d8bd;
-    --ink: #33301f;
-    --muted: #96876a;
+    --paper: #d7c19a;
+    --paper-edge: #c3aa78;
+    --ink: #3a2d1c;
+    --muted: #83714f;
     --sage: #7c8a63;
     --indigo: #5c6f88;
-    --terracotta: #b56a4a;
-    --ochre: #c49a3d;
+    --terracotta: #a85a3a;
+    --ochre: #b98a2e;
     --seal: #a8402a;
     --seal-ink: #fbf1e2;
-    --card: rgba(255,252,244,0.55);
+    --card: rgba(255,248,228,0.4);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #26221a;
-      --paper-edge: #1d1a14;
-      --ink: #e9dfc6;
-      --muted: #948765;
+      --paper: #241b10;
+      --paper-edge: #1a130b;
+      --ink: #e7d9b8;
+      --muted: #96835c;
       --sage: #93a075;
       --indigo: #7c93b3;
       --terracotta: #c98564;
       --ochre: #d3ac53;
       --seal: #c1573a;
       --seal-ink: #fbf1e2;
-      --card: rgba(255,252,244,0.06);
+      --card: rgba(255,244,214,0.05);
     }
   }
   * { box-sizing: border-box; }
@@ -41,18 +41,38 @@
   body {
     background-color: var(--paper);
     background-image:
-      radial-gradient(ellipse 620px 520px at 6% 10%, color-mix(in srgb, var(--sage) 45%, transparent), transparent 60%),
-      radial-gradient(ellipse 520px 460px at 96% 8%, color-mix(in srgb, var(--terracotta) 38%, transparent), transparent 62%),
-      radial-gradient(ellipse 560px 520px at 8% 96%, color-mix(in srgb, var(--indigo) 35%, transparent), transparent 60%),
-      radial-gradient(ellipse 520px 480px at 100% 92%, color-mix(in srgb, var(--ochre) 40%, transparent), transparent 62%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-blend-mode: multiply, multiply, multiply, multiply, overlay;
+      radial-gradient(circle 130px at 14% 20%, rgba(74,50,20,0.14), transparent 70%),
+      radial-gradient(circle 100px at 84% 12%, rgba(74,50,20,0.12), transparent 70%),
+      radial-gradient(circle 150px at 90% 82%, rgba(74,50,20,0.13), transparent 70%),
+      radial-gradient(circle 110px at 8% 88%, rgba(74,50,20,0.12), transparent 70%),
+      radial-gradient(circle 90px at 55% 48%, rgba(74,50,20,0.06), transparent 70%),
+      radial-gradient(ellipse 900px 700px at 0% 0%, rgba(120,86,38,0.22), transparent 65%),
+      radial-gradient(ellipse 900px 700px at 100% 100%, rgba(120,86,38,0.22), transparent 65%),
+      repeating-linear-gradient(89deg, rgba(74,50,20,0.05) 0px, rgba(74,50,20,0.05) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(1deg, rgba(255,244,214,0.05) 0px, rgba(255,244,214,0.05) 1px, transparent 1px, transparent 5px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-blend-mode: multiply, multiply, multiply, multiply, multiply, multiply, multiply, multiply, multiply, overlay;
     color: var(--ink);
     font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Noto Serif', serif;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
+  }
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-image:
+        radial-gradient(circle 130px at 14% 20%, rgba(0,0,0,0.28), transparent 70%),
+        radial-gradient(circle 100px at 84% 12%, rgba(0,0,0,0.24), transparent 70%),
+        radial-gradient(circle 150px at 90% 82%, rgba(0,0,0,0.26), transparent 70%),
+        radial-gradient(circle 110px at 8% 88%, rgba(0,0,0,0.24), transparent 70%),
+        radial-gradient(ellipse 900px 700px at 0% 0%, rgba(90,64,28,0.3), transparent 65%),
+        radial-gradient(ellipse 900px 700px at 100% 100%, rgba(90,64,28,0.3), transparent 65%),
+        repeating-linear-gradient(89deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(1deg, rgba(255,244,214,0.03) 0px, rgba(255,244,214,0.03) 1px, transparent 1px, transparent 5px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-blend-mode: multiply, multiply, multiply, multiply, multiply, multiply, multiply, multiply, overlay;
+    }
   }
   .container {
     width: 100%;
@@ -169,6 +189,44 @@
     color: var(--muted);
     font-style: italic;
   }
+  .explain-btn {
+    margin-top: 22px;
+    background: none;
+    background-image: none;
+    border: none;
+    border-bottom: 1px dotted var(--muted);
+    border-radius: 0;
+    padding: 3px 1px;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    box-shadow: none;
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.7s ease, color 0.2s;
+  }
+  .explain-btn.visible { opacity: 1; }
+  .explain-btn:hover { color: var(--ink); opacity: 1; }
+  .explain-btn:active { transform: none; }
+  .explain-btn[hidden] { display: none; }
+  .explanation {
+    margin-top: 16px;
+    max-width: 440px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    font-style: normal;
+    color: var(--muted);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, max-height 0.6s ease;
+  }
+  .explanation.visible {
+    opacity: 1;
+    max-height: 220px;
+  }
 </style>
 </head>
 <body>
@@ -195,130 +253,181 @@
         <path d="M5 10 Q 60 2, 150 10 T 295 9" stroke="var(--terracotta)" stroke-width="3" fill="none" stroke-linecap="round"/>
       </svg>
       <div class="koan" id="koanOutput"></div>
+      <button class="explain-btn" id="explainBtn" hidden>What does this mean?</button>
+      <div class="explanation" id="explanation"></div>
     </div>
     <div class="hint">Type anything — a worry, a question, a complaint. Press Offer.</div>
   </div>
 
 <script>
 // Theme-tagged koan bank. Each entry: keywords used for matching, and one or more koans.
+// Each koan has display text and a plain-language "meaning" shown on request.
 const KOAN_BANK = [
   {
     themes: ["anxious","anxiety","worried","worry","nervous","scared","afraid","fear","panic","stress","stressed"],
     koans: [
-      "The wind does not break the reed that bends.\nWhat are you so afraid of breaking?",
-      "A student asked, 'How do I stop being afraid?'\nThe master said, 'Stop asking the fear to leave before you let it sit down.'",
-      "You are standing in a river, waiting for the water to pass.\nIt will not pass. Walk."
+      { text: "The wind does not break the reed that bends.\nWhat are you so afraid of breaking?",
+        meaning: "Staying rigid under pressure is what breaks you. Bending — letting stress move through you instead of fighting it — is what lets you get through it intact." },
+      { text: "A student asked, 'How do I stop being afraid?'\nThe master said, 'Stop asking the fear to leave before you let it sit down.'",
+        meaning: "You can't get rid of fear by rushing past it. Let yourself actually feel it first, instead of trying to force it away — that's usually what helps it pass." },
+      { text: "You are standing in a river, waiting for the water to pass.\nIt will not pass. Walk.",
+        meaning: "Worry doesn't resolve itself if you just wait. At some point you have to move forward through the uncertainty instead of hoping it disappears first." }
     ]
   },
   {
     themes: ["angry","anger","mad","furious","frustrated","annoyed","rage","hate"],
     koans: [
-      "Fire does not apologize for burning.\nBut what are you burning down?",
-      "A monk struck the bell too hard, and it cracked.\n'Now,' said the master, 'you have two sounds instead of one. Neither is wrong.'",
-      "Anger is a hot coal you pick up to throw at someone else.\nLook — your hand is already burned."
+      { text: "Fire does not apologize for burning.\nBut what are you burning down?",
+        meaning: "Feeling angry isn't wrong. But it's worth noticing what the anger is damaging — a relationship, your own peace — before you act on it." },
+      { text: "A monk struck the bell too hard, and it cracked.\n'Now,' said the master, 'you have two sounds instead of one. Neither is wrong.'",
+        meaning: "Overreacting can permanently change a situation. That doesn't mean it's ruined — it becomes something different, not automatically worse." },
+      { text: "Anger is a hot coal you pick up to throw at someone else.\nLook — your hand is already burned.",
+        meaning: "Holding onto anger to punish someone else mostly just hurts you. The person you're angry at often isn't the one feeling it." }
     ]
   },
   {
     themes: ["sad","sadness","depressed","depression","grief","grieving","loss","lost","lonely","alone","empty"],
     koans: [
-      "The cup is empty. This is not a flaw in the cup.\nIt is what makes the cup useful.",
-      "A student wept before the master. The master wept too, and said nothing.\nAfter a long while, only one of them was still weeping.",
-      "Snow falls into the river and disappears.\nWhere did it go? Ask the river, not the sky."
+      { text: "The cup is empty. This is not a flaw in the cup.\nIt is what makes the cup useful.",
+        meaning: "Feeling empty right now isn't a personal failure. Emptiness is also what leaves room for something new to fill later." },
+      { text: "A student wept before the master. The master wept too, and said nothing.\nAfter a long while, only one of them was still weeping.",
+        meaning: "Sometimes the most helpful thing isn't advice or fixing — it's someone sitting with your grief instead of trying to talk you out of it." },
+      { text: "Snow falls into the river and disappears.\nWhere did it go? Ask the river, not the sky.",
+        meaning: "Loss doesn't vanish without a trace — it becomes part of what continues. Instead of asking where it went, notice how it's still moving through things." }
     ]
   },
   {
     themes: ["confused","confusion","uncertain","unsure","dont know","don't know","lost","stuck","unclear","undecided"],
     koans: [
-      "You are looking for the door while standing in the doorway.",
-      "A traveler asked which road led home.\nThe old woman said, 'Which one are you walking on now?'",
-      "The fog does not need to be understood. It only needs to be walked through."
+      { text: "You are looking for the door while standing in the doorway.",
+        meaning: "You likely already have what you need to figure this out — you're overthinking the search when the answer is right where you're standing." },
+      { text: "A traveler asked which road led home.\nThe old woman said, 'Which one are you walking on now?'",
+        meaning: "The way forward is often the path you're already on. Instead of looking for a different route, pay attention to the one you're already taking." },
+      { text: "The fog does not need to be understood. It only needs to be walked through.",
+        meaning: "You don't need total clarity before you act. Confusion often clears through moving forward, not through more analysis." }
     ]
   },
   {
     themes: ["work","job","career","boss","deadline","busy","tired","exhausted","overwhelmed"],
     koans: [
-      "The axe that is never put down cuts nothing well.",
-      "A woodcutter chopped from dawn to dusk without sharpening his blade.\n'I have no time to stop,' he said, and chopped more slowly every day.",
-      "The bucket carried to the well every day wears a groove in the rope.\nIs it the bucket's task to hurry, or the well's task to wait?"
+      { text: "The axe that is never put down cuts nothing well.",
+        meaning: "Working nonstop without rest actually makes you less effective. Breaks aren't wasted time — they're what keeps your effort sharp." },
+      { text: "A woodcutter chopped from dawn to dusk without sharpening his blade.\n'I have no time to stop,' he said, and chopped more slowly every day.",
+        meaning: "Being 'too busy' to pause and recharge is exactly why you're getting slower and more worn out. The fix is the break you keep skipping." },
+      { text: "The bucket carried to the well every day wears a groove in the rope.\nIs it the bucket's task to hurry, or the well's task to wait?",
+        meaning: "Constant urgency wears you down over time. It's okay to let some things take the time they need instead of rushing everything." }
     ]
   },
   {
     themes: ["love","relationship","partner","marriage","boyfriend","girlfriend","husband","wife","breakup","heartbreak"],
     koans: [
-      "Two flames leaning toward each other do not become one fire.\nThey only make more light.",
-      "A student asked how to hold love without crushing it.\nThe master opened his hand. The bird did not fly away.",
-      "You cannot pour tea into a cup that is already full of your own reaching."
+      { text: "Two flames leaning toward each other do not become one fire.\nThey only make more light.",
+        meaning: "A healthy relationship doesn't mean losing your separate identity — two whole people together create something bigger than either alone." },
+      { text: "A student asked how to hold love without crushing it.\nThe master opened his hand. The bird did not fly away.",
+        meaning: "Love tends to last longer when you hold it loosely instead of gripping tightly out of fear of losing it." },
+      { text: "You cannot pour tea into a cup that is already full of your own reaching.",
+        meaning: "If you're already full of your own needs, expectations, or anxiety, there's no room left to actually receive someone else's love." }
     ]
   },
   {
     themes: ["fail","failure","failed","mistake","messed up","screwed up","wrong","regret"],
     koans: [
-      "The arrow that misses teaches the bow something the arrow that hits never will.",
-      "A young monk broke the master's favorite bowl and wept.\n'Good,' said the master. 'Now you know it was never yours to keep whole.'",
-      "Every crooked line was once a straight one that dared to move."
+      { text: "The arrow that misses teaches the bow something the arrow that hits never will.",
+        meaning: "Failure teaches you things success can't. The miss is often more informative than the hit." },
+      { text: "A young monk broke the master's favorite bowl and wept.\n'Good,' said the master. 'Now you know it was never yours to keep whole.'",
+        meaning: "Nothing you have was ever guaranteed to last forever. Realizing that can be a relief, not just a loss." },
+      { text: "Every crooked line was once a straight one that dared to move.",
+        meaning: "Mistakes are just what happens when you actually try something, instead of staying perfectly safe and unmoving." }
     ]
   },
   {
     themes: ["future","plan","planning","goal","ambition","success","want","need to","should","trying to"],
     koans: [
-      "The seed does not strain toward the sun. It simply stops being a seed.",
-      "A disciple asked, 'How do I reach enlightenment?'\nThe master asked, 'How do you reach the sound of that bell?'\nThe disciple listened. It was already there.",
-      "You are so busy climbing the mountain, you have mistaken it for the sky."
+      { text: "The seed does not strain toward the sun. It simply stops being a seed.",
+        meaning: "Growth happens naturally when you stop forcing it and just do what's next in front of you." },
+      { text: "A disciple asked, 'How do I reach enlightenment?'\nThe master asked, 'How do you reach the sound of that bell?'\nThe disciple listened. It was already there.",
+        meaning: "What you're chasing — success, purpose, some future state — is often already present. You just have to actually pay attention instead of looking elsewhere." },
+      { text: "You are so busy climbing the mountain, you have mistaken it for the sky.",
+        meaning: "You've gotten so focused on the goal that you've lost sight of why you wanted it in the first place." }
     ]
   },
   {
     themes: ["control","controlling","perfectionist","perfect","organize","plan everything"],
     koans: [
-      "The river carves the canyon by refusing to hold its shape.",
-      "A gardener pulled at a vine to make it grow faster.\nIn the morning, the vine was still asleep, and the gardener's hands were tired.",
-      "You cannot grip water. You can only become the shape it wants to take."
+      { text: "The river carves the canyon by refusing to hold its shape.",
+        meaning: "Real influence often comes from flexibility and persistence, not from forcing things to happen your way." },
+      { text: "A gardener pulled at a vine to make it grow faster.\nIn the morning, the vine was still asleep, and the gardener's hands were tired.",
+        meaning: "Rushing or forcing progress usually backfires — some things need their own timeline no matter how impatient you are." },
+      { text: "You cannot grip water. You can only become the shape it wants to take.",
+        meaning: "The more tightly you try to control an uncertain situation, the more it slips away. Adapting works better than gripping." }
     ]
   },
   {
     themes: ["silence","quiet","peace","calm","meditate","meditation","breathe","breath"],
     koans: [
-      "Before the bell is struck, where does its sound live?",
-      "A student asked how to find silence.\nThe master said, 'Stop adding to it.'",
-      "The mountain has said nothing for ten thousand years, and everyone still comes to listen."
+      { text: "Before the bell is struck, where does its sound live?",
+        meaning: "Peace isn't something you have to create — it's already there underneath the noise. You just have to stop covering it up." },
+      { text: "A student asked how to find silence.\nThe master said, 'Stop adding to it.'",
+        meaning: "You don't find calm by doing more things to relax — you find it by doing less." },
+      { text: "The mountain has said nothing for ten thousand years, and everyone still comes to listen.",
+        meaning: "You don't need to say much to have an impact. Steady presence speaks for itself." }
     ]
   },
   {
     themes: ["money","poor","rich","debt","broke","finance","financial"],
     koans: [
-      "A beggar and a king both drink the same water from the well.\nOne calls it lack. The other calls it thirst.",
-      "The hand closed around a coin cannot receive another.",
-      "A monk asked, 'How can I become wealthy?'\nThe master replied, 'Want less than you have.'"
+      { text: "A beggar and a king both drink the same water from the well.\nOne calls it lack. The other calls it thirst.",
+        meaning: "Whether something feels like 'not enough' is more about your mindset than the actual amount you have." },
+      { text: "The hand closed around a coin cannot receive another.",
+        meaning: "Holding too tightly to what you have can keep you from receiving anything new." },
+      { text: "A monk asked, 'How can I become wealthy?'\nThe master replied, 'Want less than you have.'",
+        meaning: "A faster path to feeling 'wealthy' is adjusting what you want, not just increasing what you earn." }
     ]
   },
   {
     themes: ["who am i","identity","purpose","meaning","meaningless","pointless","why am i"],
     koans: [
-      "You ask the wave to explain the ocean.\nBut you are not watching the wave — you are the wave, asking.",
-      "A student searched for his true self for thirty years, and returned home to find it had been cooking rice the whole time.",
-      "The question 'who am I' is a finger pointing at the moon.\nStop examining the finger."
+      { text: "You ask the wave to explain the ocean.\nBut you are not watching the wave — you are the wave, asking.",
+        meaning: "You're looking for meaning outside yourself, but you're already part of the bigger picture you're trying to understand." },
+      { text: "A student searched for his true self for thirty years, and returned home to find it had been cooking rice the whole time.",
+        meaning: "You may already be living your 'true self' through your everyday actions — you don't need to find it somewhere else." },
+      { text: "The question 'who am I' is a finger pointing at the moon.\nStop examining the finger.",
+        meaning: "Don't get so caught up analyzing the question that you miss actually living your life." }
     ]
   },
   {
     themes: ["hello","hi","hey","test","testing"],
     koans: [
-      "You knocked on the door, and it was already open.\nWhat were you expecting to find?",
-      "The greeting and the silence after it are made of the same breath."
+      { text: "You knocked on the door, and it was already open.\nWhat were you expecting to find?",
+        meaning: "You were hesitant to start, but there was nothing actually stopping you." },
+      { text: "The greeting and the silence after it are made of the same breath.",
+        meaning: "Small moments of connection and quiet stillness aren't so different — both come from simply being present." }
     ]
   }
 ];
 
 // Fallback koans when no theme matches.
 const GENERIC_KOANS = [
-  "The finger pointing at the moon is not the moon.",
-  "A student asked the master, 'What is the sound of one hand clapping?'\nThe master raised one hand and waited.",
-  "Before enlightenment, chop wood, carry water.\nAfter enlightenment, chop wood, carry water.",
-  "The obstacle in the path becomes the path. Never forget, within every obstacle is an opportunity to improve our condition.",
-  "You cannot see your own eyes without a mirror.\nSome things are known only by their reflection in another.",
-  "A cup of tea poured too full spills before it reaches the lips.",
-  "The old pine tree speaks divine wisdom.\nThe hidden bird manifests eternal truth.",
-  "Nothing in the world is as soft as water,\nyet nothing is better at overcoming the hard and strong.",
-  "When you reach the top of the mountain, keep climbing.",
-  "The wild geese do not intend to cast their reflection.\nThe water has no mind to receive their image."
+  { text: "The finger pointing at the moon is not the moon.",
+    meaning: "Don't confuse the explanation or symbol for the real thing it's pointing you toward." },
+  { text: "A student asked the master, 'What is the sound of one hand clapping?'\nThe master raised one hand and waited.",
+    meaning: "Not everything has a tidy, logical answer — some questions exist to interrupt your usual way of thinking, not to be 'solved.'" },
+  { text: "Before enlightenment, chop wood, carry water.\nAfter enlightenment, chop wood, carry water.",
+    meaning: "Big realizations don't exempt you from ordinary life. Growth shows up in how you handle the same daily tasks, not in escaping them." },
+  { text: "The obstacle in the path becomes the path. Never forget, within every obstacle is an opportunity to improve our condition.",
+    meaning: "Try reframing the problem as part of the way forward, not as something blocking a separate 'real' path." },
+  { text: "You cannot see your own eyes without a mirror.\nSome things are known only by their reflection in another.",
+    meaning: "Some parts of yourself you can only understand through other people or an outside perspective." },
+  { text: "A cup of tea poured too full spills before it reaches the lips.",
+    meaning: "If you're already full — of opinions, stress, assumptions — nothing new can be added until you make room." },
+  { text: "The old pine tree speaks divine wisdom.\nThe hidden bird manifests eternal truth.",
+    meaning: "Wisdom is often found in ordinary, quiet things if you're paying attention, not only in grand teachings." },
+  { text: "Nothing in the world is as soft as water,\nyet nothing is better at overcoming the hard and strong.",
+    meaning: "Gentleness and patience can overcome things that force and rigidity can't." },
+  { text: "When you reach the top of the mountain, keep climbing.",
+    meaning: "Growth doesn't stop once you reach a goal — there's always a next step." },
+  { text: "The wild geese do not intend to cast their reflection.\nThe water has no mind to receive their image.",
+    meaning: "You're not obligated to control how others perceive you — don't carry more responsibility for their reflection of you than is actually yours." }
 ];
 
 function normalize(text) {
@@ -357,6 +466,18 @@ const input = document.getElementById('input');
 const submitBtn = document.getElementById('submit');
 const output = document.getElementById('koanOutput');
 const brushStroke = document.getElementById('brushStroke');
+const explainBtn = document.getElementById('explainBtn');
+const explanation = document.getElementById('explanation');
+
+let currentMeaning = '';
+
+function resetExplanation() {
+  explainBtn.hidden = true;
+  explainBtn.classList.remove('visible');
+  explainBtn.textContent = 'What does this mean?';
+  explanation.classList.remove('visible');
+  explanation.textContent = '';
+}
 
 function respond() {
   const text = input.value.trim();
@@ -366,15 +487,32 @@ function respond() {
   }
   output.classList.remove('visible');
   brushStroke.classList.remove('visible');
+  resetExplanation();
   submitBtn.disabled = true;
 
   setTimeout(() => {
-    output.textContent = pickKoan(text);
+    const koan = pickKoan(text);
+    currentMeaning = koan.meaning;
+    output.textContent = koan.text;
     output.classList.add('visible');
     brushStroke.classList.add('visible');
     submitBtn.disabled = false;
+    explainBtn.hidden = false;
+    requestAnimationFrame(() => explainBtn.classList.add('visible'));
   }, 350);
 }
+
+explainBtn.addEventListener('click', () => {
+  const isVisible = explanation.classList.contains('visible');
+  if (isVisible) {
+    explanation.classList.remove('visible');
+    explainBtn.textContent = 'What does this mean?';
+  } else {
+    explanation.textContent = currentMeaning;
+    explanation.classList.add('visible');
+    explainBtn.textContent = 'Hide explanation';
+  }
+});
 
 submitBtn.addEventListener('click', respond);
 input.addEventListener('keydown', (e) => {
