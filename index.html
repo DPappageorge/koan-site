@@ -343,7 +343,7 @@ const KOAN_BANK = [
     ]
   },
   {
-    themes: ["work","job","career","boss","deadline","busy","tired","exhausted","overwhelmed"],
+    themes: ["work","job","career","boss","deadline","busy","exhausted","overwhelmed","burnt out","burned out"],
     koans: [
       { text: "The axe that is never put down cuts nothing well.",
         meaning: "Working nonstop without rest actually makes you less effective. Breaks aren't wasted time — they're what keeps your effort sharp." },
@@ -373,7 +373,7 @@ const KOAN_BANK = [
     ]
   },
   {
-    themes: ["fail","failure","failed","mistake","messed up","screwed up","wrong","regret"],
+    themes: ["fail","failure","failed","mistake","messed up","screwed up","went wrong","regret"],
     koans: [
       { text: "The arrow that misses teaches the bow something the arrow that hits never will.",
         meaning: "Failure teaches you things success can't. The miss is often more informative than the hit." },
@@ -388,7 +388,7 @@ const KOAN_BANK = [
     ]
   },
   {
-    themes: ["future","plan","planning","goal","ambition","success","want","need to","should","trying to"],
+    themes: ["future","planning","my goal","ambition","ambitious","succeed","need to","trying to","want to achieve"],
     koans: [
       { text: "The seed does not strain toward the sun. It simply stops being a seed.",
         meaning: "Growth happens naturally when you stop forcing it and just do what's next in front of you." },
@@ -487,7 +487,7 @@ const KOAN_BANK = [
     ]
   },
   {
-    themes: ["change","changing","everything is changing","things are different now","growing apart","don't recognize myself","not the same person","nothing stays the same"],
+    themes: ["changing","everything is changing","things are different now","growing apart","don't recognize myself","not the same person","nothing stays the same"],
     koans: [
       { text: "No one steps into the same river twice.\nNot because the river has moved, but because neither has the one stepping.",
         meaning: "You're allowed to have changed. The people, situations, and even you yourself are never quite the same as they were — that's not something going wrong, it's just how things work." },
@@ -611,6 +611,20 @@ function normalize(text) {
   return text.toLowerCase();
 }
 
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Matches whole words/phrases only (word boundaries), so "want" can't fire
+// off the middle of "wanted" or "unwanted". Multi-word phrases are weighted
+// higher than single generic words, so a specific match like "not good
+// enough" beats an incidental hit on something short and common.
+function keywordWeight(userText, keyword) {
+  const pattern = new RegExp('\\b' + escapeRegex(keyword) + '\\b', 'i');
+  if (!pattern.test(userText)) return 0;
+  return keyword.trim().split(/\s+/).length;
+}
+
 function pickKoan(userText) {
   const text = normalize(userText);
   let bestScore = 0;
@@ -619,7 +633,7 @@ function pickKoan(userText) {
   for (const group of KOAN_BANK) {
     let score = 0;
     for (const kw of group.themes) {
-      if (text.includes(kw)) score++;
+      score += keywordWeight(text, kw);
     }
     if (score > bestScore) {
       bestScore = score;
